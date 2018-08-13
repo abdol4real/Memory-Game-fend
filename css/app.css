@@ -175,6 +175,20 @@ h1 {
 
 }
 
+@media screen and (max-width: 400px) {
+    .deck {
+        width: 300px;
+        min-height: 300px;
+        padding: 20px;
+    }
+
+    .deck .card {
+        height: 57px;
+        width: 57px;
+    }
+
+}
+
 /* animations */
 @keyframes correct {
 	from {
