@@ -7,7 +7,7 @@
 
  var openCards = [];
  var cardCounter = [];
- let matchedCard = document.getElementsByClassName("match")
+ let matchedCard = document.getElementsByClassName("match");
 
  let move = document.querySelector(".moves");
  let num = 0;
@@ -15,7 +15,9 @@
  var second = 0, min = 0, hour = 0, interval;
  var timer = document.querySelector(".timer");
 
- var modal = document.querySelector(".modal")
+ var modal = document.querySelector(".modal");
+
+ let star = document.getElementsByClassName("fa fa-star");
 
 /*
  * Display the cards on the page
@@ -67,6 +69,9 @@ function shuffle(array) {
     timer.innerHTML = "Timer: 0 hrs 0 mins 0 secs";
     clearInterval(interval);
     cardCounter = [];
+    for(let i = 0; i <=2; i++){
+      star[i].style.visibility = "visible";
+    }
   }
 
   for(var x = 0; x < cards.length; x++){
@@ -86,6 +91,7 @@ function shuffle(array) {
   function moves(){
       num++;
       move.innerHTML = num;
+      starRating();
       console.log("i was called" + num);
       if(num == 1){
         time();
@@ -124,8 +130,12 @@ function shuffle(array) {
 
   }//matched method ends here!!!
   function unmatched() {
-    openCards[0].classList.add("unmatched");
+    openCards[0].classList.add("unmatched", "show");
     openCards[1].classList.add("unmatched", "show");
+    for(let i = 0; i < cards.length; i++){
+      card[i].classList.add("disable"); //this is to disable the cards to aviod strange behaviour when cards are clicked.
+    }
+
     /*
     * setTimeout methodis called to delay the time taken to remmove the classes
     * from the clicked cards. i notice that without the setTimeout when two unmatched cards are clicked
@@ -134,6 +144,12 @@ function shuffle(array) {
     setTimeout(function(){
       openCards[0].classList.remove("unmatched", "show", "disable", "open");
       openCards[1].classList.remove("unmatched", "show", "disable", "open");
+      for(let i = 0; i < cards.length; i++){
+      card[i].classList.remove("disable"); //this is to remove disable class from the cards.
+      }
+      for(let i = 0; i < matchedCard.length; i++){
+      matchedCard[i].classList.add("disable"); //this is to remove disable class from the cards expected matched cards.
+    }
       openCards = [];
     }, 300);
     console.log("unmatched method completed");
@@ -158,7 +174,8 @@ function shuffle(array) {
      if(cardCounter.length === 16){
       clearInterval(interval);
       document.querySelector("#lastMove").innerHTML = num + "moves ";
-      document.querySelector("#finish").innerHTML = hour + "hrs :" + min + "mins :" + second + "secs";;
+      document.querySelector("#finish").innerHTML = hour + "hrs :" + min + "mins :" + second + "secs";
+      document.querySelector("#star").innerHTML = "Rating: "+document.querySelector(".stars").innerHTML;
       modal.style.display = "block";
       console.log("congratulations...!!!");
     }
@@ -175,3 +192,26 @@ function shuffle(array) {
         modal.style.display = "none";
         startGame();
   });
+
+  //starRating
+  //let starUL = document.getElementsByClassName("stars")
+  //const starList = [...starUL]
+  
+  function starRating(){
+      if (num > 8 && num < 25){
+        for( i= 0; i < 3; i++){
+            if(i > 1){
+                star[i].style.visibility = "collapse";
+            }
+        }
+    }
+    else if (num > 26){
+        for( i= 0; i < 3; i++){
+            if(i > 0){
+                star[i].style.visibility = "collapse";
+            }
+        }
+    }
+  }
+
+  
